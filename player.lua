@@ -1,13 +1,15 @@
 --!file: player.lua
 Player = DynamicEntity:extend()
 
-function Player:new(image, x, y, width, height, world)
-    Player.super.new(self, x, y, width, height, image, world)
+function Player:new(image, x, y, width, height)
+    Player.super.new(self, x, y, width, height, image)
     self.speed = 110
     self.gravity = 630
     self.weight = 60
     self.jumpVelocity = -230
+    self.timeToThrow = 0
 
+    -- Animation
     local g = anim8.newGrid(32, 32, image:getWidth(), image:getHeight())
     self.animation = anim8.newAnimation(g('1-5', 1), 0.1)
     self.animationFlipped = anim8.newAnimation(g('1-5', 1), 0.1):flipH()
@@ -17,6 +19,7 @@ function Player:update(dt)
    -- super contains applyGravity
    Player.super.update(self, dt)
    self:movement(dt)
+   self:controls(dt)
 end
 
 function Player:movement(dt)
@@ -53,6 +56,26 @@ function Player:jump()
        self.onGround = false
        self.yVelocity = self.jumpVelocity
    end
+end
+
+function Player:controls(dt)
+    -- Timer for throwing
+    self.timeToThrow = self.timeToThrow - dt
+    if self.timeToThrow <= 0 then
+        self.timeToThrow = 0
+    end
+
+    if love.keyboard.isDown("space") and self.timeToThrow <= 0 then
+        self.timeToThrow = 1.2
+        self:createTree()
+    end
+end
+
+function Player:createTree()
+    local treeImage = love.graphics.newImage("data/image/tree.png")
+    newTree = Tree(treeImage, self.x + 30, self.y - 10, 32, 64)
+    -- Add this to our entities
+    table.insert(entities, newTree)
 end
 
 function Player:draw()

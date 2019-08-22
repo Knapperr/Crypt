@@ -1,7 +1,7 @@
 --!file: entity.lua
 Entity = Object:extend()
 
-function Entity:new(x, y, width, height, image, world)
+function Entity:new(x, y, width, height, image)
     self.x = x
     self.y = y
     self.direction = 1

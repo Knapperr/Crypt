@@ -5,15 +5,19 @@ function Game:new()
     self:load()
     self.showDebug = true
 
-    self.cols_len = 0 -- How many collisions are happening
+    -- How many collisions are happening
+    self.cols_len = 0
 end
 
 function Game:load()
-    -- init bump
+    -- global entities
+    entities = {}
 
-    self.world = bump.newWorld()
+    -- init bump
+    -- global world
+    world = bump.newWorld()
     self.map = sti("data/tileset/level1.lua", { "bump" })
-    self.map:bump_init(self.world)
+    self.map:bump_init(world)
 
     -- Grab the player from the map
     -- We can use this object loop to grab everything and just init it to the player
@@ -24,7 +28,8 @@ function Game:load()
     player = {}
     for k, object in pairs(self.map.objects) do
         if object.name == "Player" then
-            player = Player(playerImage, object.x, object.y, playerWidth, playerHeight, self.world)
+            player = Player(playerImage, object.x, object.y, playerWidth, playerHeight)
+            table.insert(entities, player)
         end
     end
 end
@@ -62,7 +67,12 @@ function Game:draw()
         love.graphics.translate(-tx, -ty)
         self.map:draw(-tx, -ty, scale, scale)
         --self.map:draw(1, 1, scale, scale) -- this scales the map
-        player:draw()
+
+        -- Draw entities
+        for i=1, #entities do
+            entities[i]:draw()
+        end
+        --player:draw()
     love.graphics.pop()
 
     -- TODO: Change this to draw all of our entities like
@@ -75,6 +85,7 @@ function Game:draw()
         love.graphics.print("xVelocity: " .. player.xVelocity, 32, 96)
         love.graphics.print("onGround: " .. tostring(player.onGround), 32, 128)
         love.graphics.print("Collision with: " .. otherCollisionName, 32, 160)
+        love.graphics.print("Throw time: " .. player.timeToThrow, 32, 192)
     end
 
 end
@@ -94,8 +105,8 @@ function Game:handleCollisions(dt)
     -- TODO: only using the player right now
     local cols
     local nextX, nextY = 0, 0
-    nextX, nextY, cols = self.world:move(player, destX, destY)
-    -- NOTE: this is working - player.x, player.x, cols = self.world:move(player, player.x, player.y)
+    nextX, nextY, cols = world:move(player, destX, destY)
+    -- NOTE: this is working - player.x, player.x, cols = world:move(player, player.x, player.y)
 
     -- update our players position
     player.x, player.y = nextX, nextY
