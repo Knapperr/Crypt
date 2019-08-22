@@ -3,10 +3,10 @@ Player = DynamicEntity:extend()
 
 function Player:new(image, x, y, width, height, name)
     Player.super.new(self, x, y, width, height, image, name)
-    self.speed = 110
-    self.gravity = 630
+    self.speed = 150
+    self.gravity = 600
     self.weight = 60
-    self.jumpVelocity = -230
+    self.jumpVelocity = -160
     self.timeToThrow = 0
 
     -- Animation

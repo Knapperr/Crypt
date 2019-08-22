@@ -14,7 +14,6 @@ function Game:load()
     entities = {}
 
     -- init bump
-    -- global world
     world = bump.newWorld()
     self.map = sti("data/tileset/level1.lua", { "bump" })
     self.map:bump_init(world)
@@ -37,19 +36,53 @@ function Game:load()
     end
 end
 
+-- Update the game
 function Game:update(dt)
     -- reset collisions
     self.map:update(dt)
-    self:handleCollisions(dt)
 
-    player:update(dt)
+    -- update all entities
+    for i=1, #entities do
+        local entity = entities[i]
+        -- only update and check collisions for dynamic entities
+        if entity:is(DynamicEntity) then
+            entity:update(dt)
 
+            local destX = entity.x + entity.xVelocity * dt
+            local destY =  entity.y + entity.yVelocity * dt
+            local nextX, nextY = 0, 0
+            nextX, nextY, cols = world:move(entity, destX, destY)
+            entity.x, entity.y = nextX, nextY
+            self:checkCollisions(entity, cols)
+        end
+    end
 
     -- Debug controls
     if love.keyboard.isDown("1") then
         self.showDebug = false
     elseif love.keyboard.isDown("2") then
         self.showDebug = true
+    end
+end
+
+-- Handle all collisions for the entity
+function Game:checkCollisions(entity, cols)
+    -- THIS GOES IN FUNCTION
+    otherCollisionName = ""
+
+    -- Reset if an entity is touching the ground
+    entity.onGround = false
+    for i,col in ipairs (cols) do
+        otherCollisionName = tostring(col.other.name)
+        if col.normal.y == -1 or col.normal.y == 1 then
+            entity.yVelocity = 0
+        end
+        if col.normal.y == -1  then
+            entity.onGround = true
+        end
+        if otherCollisionName == "spike" then
+            entity.speed = 300
+        end
     end
 end
 
@@ -62,7 +95,6 @@ function Game:draw()
         local screenHeight = love.graphics.getHeight() / scale
 
         love.graphics.scale(scale)
-
         -- TODO: Remove this and use an actual camera
         local tx = math.floor(player.x - (screenWidth / 2))
         local ty = math.floor(player.y - (screenHeight / 2))
@@ -75,11 +107,8 @@ function Game:draw()
         for i=1, #entities do
             entities[i]:draw()
         end
-        --player:draw()
+        --NOTE: player:draw()
     love.graphics.pop()
-
-    -- TODO: Change this to draw all of our entities like
-    -- entities[i]:draw() in a loop
 
     -- DEBUG PLAYER
     if self.showDebug == true then
@@ -91,44 +120,4 @@ function Game:draw()
         love.graphics.print("Throw time: " .. player.timeToThrow, 32, 192)
     end
 
-end
-
-
--- Handle collisions for everything the character can contact
--- NOTE: If we are looping through entities to do this we will need to check
---       specifically for the player with the destX and destY the entities wont use this
-function Game:handleCollisions(dt)
-    -- TODO: Move this to a function
-    -- projected position
-    local destX = player.x + player.xVelocity * dt
-    local destY = player.y + player.yVelocity * dt
-
-    -- TODO: only using the player right now
-    local cols
-    local nextX, nextY = 0, 0
-    nextX, nextY, cols = world:move(player, destX, destY)
-    -- NOTE: this is working - player.x, player.x, cols = world:move(player, player.x, player.y)
-
-    -- update our players position
-    player.x, player.y = nextX, nextY
-
-    -- NOTE: We can only do it this way. We can't return when we aren't touching something
-    --       this runs every frame so if we are touching the normal.y -1 then we will be true
-    --       before this was not working because of the structure of the code (always incrementing gravity)
-
-    -- could move this into a function checkCollisions
-    otherCollisionName = ""
-    player.onGround = false
-    for i,col in ipairs (cols) do
-        otherCollisionName = tostring(col.other.name)
-        if col.normal.y == -1 or col.normal.y == 1 then
-            player.yVelocity = 0
-        end
-        if col.normal.y == -1  then
-            player.onGround = true
-        end
-        if otherCollisionName == "spike" then
-            player.speed = 300
-        end
-    end
 end
