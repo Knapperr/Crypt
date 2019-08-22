@@ -21,6 +21,7 @@ function Game:load()
 
     -- Grab the player from the map
     -- We can use this object loop to grab everything and just init it to the player
+    local spikeImage = love.graphics.newImage("data/image/spike.png")
     local playerImage = love.graphics.newImage("data/image/skellyanim.png")
     -- WxH is not based off of image. The image is a sprite sheet
     local playerWidth = 32
@@ -28,8 +29,10 @@ function Game:load()
     player = {}
     for k, object in pairs(self.map.objects) do
         if object.name == "Player" then
-            player = Player(playerImage, object.x, object.y, playerWidth, playerHeight)
+            player = Player(playerImage, object.x, object.y, playerWidth, playerHeight, "player")
             table.insert(entities, player)
+        elseif object.name == "Spike" then
+            table.insert(entities, Spike(spikeImage, object.x, object.y, 32, 32, "spike"))
         end
     end
 end
@@ -100,8 +103,6 @@ function Game:handleCollisions(dt)
     local destX = player.x + player.xVelocity * dt
     local destY = player.y + player.yVelocity * dt
 
-    -- DEBUG!!!
-    otherCollisionName = ""
     -- TODO: only using the player right now
     local cols
     local nextX, nextY = 0, 0
@@ -114,15 +115,20 @@ function Game:handleCollisions(dt)
     -- NOTE: We can only do it this way. We can't return when we aren't touching something
     --       this runs every frame so if we are touching the normal.y -1 then we will be true
     --       before this was not working because of the structure of the code (always incrementing gravity)
+
+    -- could move this into a function checkCollisions
+    otherCollisionName = ""
     player.onGround = false
     for i,col in ipairs (cols) do
-        otherCollisionName = tostring(col.other)
-
+        otherCollisionName = tostring(col.other.name)
         if col.normal.y == -1 or col.normal.y == 1 then
             player.yVelocity = 0
         end
         if col.normal.y == -1  then
             player.onGround = true
+        end
+        if otherCollisionName == "spike" then
+            player.speed = 300
         end
     end
 end

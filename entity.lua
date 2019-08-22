@@ -1,14 +1,14 @@
 --!file: entity.lua
 Entity = Object:extend()
 
-function Entity:new(x, y, width, height, image)
+function Entity:new(x, y, width, height, image, name)
     self.x = x
     self.y = y
-    self.direction = 1
-    -- Image & Dimensions
-    self.image = image
     self.w = width or 32
     self.h = height or 32
+    self.image = image
+    self.name = name
+    self.direction = 1
 
     -- Add the entity to our sti(tiled) world
     if world ~= nil then

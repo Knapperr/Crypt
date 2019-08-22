@@ -1,7 +1,4 @@
-**TODO**
-
----------------------------------------------------------------------------------------------------------------------
-[ ] split to dynamic entity and normal entity - just inherit from entity and put gravity in there.... then inherit player from it
+## TODO
     can check
     <code>
     for i=1,#self.entities do
@@ -17,10 +14,11 @@
       end
     </code>
 
-[ ] use tick for jumping? and
-[ ] Create array of entities in the game class
+[ ] add spike
+[ ] IN-PROGRESS: (Started using entities for drawing) Create array of entities in the game class
 [ ] Add game states with controller http://lua.space/gamedev/handling-input-in-lua
 [ ] Clean up the collision detection somehow.. collisionhandler class?
+[x] create alarm for creating tree
 [x] Add dynamic entity to inherit from entity
 [x] Now that everything is out of main experiment more with the STI library and tilemaps
 [x] Move everything out of main. create a game class that deals with a list of entities and loading the map

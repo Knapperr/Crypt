@@ -2,8 +2,8 @@
 
 DynamicEntity = Entity:extend()
 
-function DynamicEntity:new(x, y, width, height, image)
-    DynamicEntity.super.new(self, x, y, width, height, image)
+function DynamicEntity:new(x, y, width, height, image, name)
+    DynamicEntity.super.new(self, x, y, width, height, image, name)
     self.xVelocity = 0
     self.yVelocity = 0
     self.terminalVelocity = 800 -- so our velocity can't get to the extreme while falling

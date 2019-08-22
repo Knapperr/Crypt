@@ -1,8 +1,8 @@
 --!file: player.lua
 Player = DynamicEntity:extend()
 
-function Player:new(image, x, y, width, height)
-    Player.super.new(self, x, y, width, height, image)
+function Player:new(image, x, y, width, height, name)
+    Player.super.new(self, x, y, width, height, image, name)
     self.speed = 110
     self.gravity = 630
     self.weight = 60
@@ -73,7 +73,7 @@ end
 
 function Player:createTree()
     local treeImage = love.graphics.newImage("data/image/tree.png")
-    newTree = Tree(treeImage, self.x + 30, self.y - 10, 32, 64)
+    newTree = Tree(treeImage, self.x + 30, self.y - 10, 32, 64, "tree")
     -- Add this to our entities
     table.insert(entities, newTree)
 end
