@@ -21,6 +21,7 @@ function DynamicEntity:update(dt)
     self.last.x = self.x
     self.last.y = self.y
     self:applyGravity(dt)
+    self:moveColliding(dt)
 end
 
 function DynamicEntity:applyGravity(dt)
@@ -30,4 +31,17 @@ function DynamicEntity:applyGravity(dt)
     else
         self.yVelocity = self.terminalVelocity
     end
+end
+
+function DynamicEntity:filter(other)
+    return 'slide'
+end
+
+function DynamicEntity:moveColliding(dt)
+    local destX = self.x + self.xVelocity * dt
+    local destY =  self.y + self.yVelocity * dt
+    local nextX, nextY = 0, 0
+
+    nextX, nextY, cols = world:move(self, destX, destY, self.filter)
+    self.x, self.y = nextX, nextY
 end

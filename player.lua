@@ -22,7 +22,10 @@ function Player:update(dt)
    Player.super.update(self, dt)
    self:movement(dt)
    self:controls(dt)
-   self:moveColliding(dt)
+  -- NOTE: Don't need to call movecolliding
+  -- super is calling it already using
+  -- my overloaded version
+  -- self:moveColliding(dt)
 end
 
 function Player:movement(dt)
