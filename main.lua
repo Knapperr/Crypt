@@ -9,6 +9,7 @@ require "dynamic_entity"
 require "player"
 require "tree"
 require "spike"
+require "slow_block"
 
 anim8 = require 'lib/anim8'
 

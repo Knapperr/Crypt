@@ -20,18 +20,21 @@ function Game:load()
 
     -- Grab the player from the map
     -- We can use this object loop to grab everything and just init it to the player
-    local spikeImage = love.graphics.newImage("data/image/spike.png")
     local playerImage = love.graphics.newImage("data/image/skellyanim.png")
+    local spikeImage = love.graphics.newImage("data/image/spike.png")
+    local slowblockImage = love.graphics.newImage("data/image/slowblock.png")
     -- WxH is not based off of image. The image is a sprite sheet
     local playerWidth = 32
     local playerHeight = 32
     player = {}
     for k, object in pairs(self.map.objects) do
-        if object.name == "Player" then
+        if object.name == "Spike" then
+            table.insert(entities, Spike(spikeImage, object.x, object.y, 32, 32, "spike"))
+        elseif object.name == "SlowBlock" then
+            table.insert(entities, SlowBlock(slowblockImage, object.x, object.y, 32, 32, "slowblock"))
+        elseif object.name == "Player" then
             player = Player(playerImage, object.x, object.y, playerWidth, playerHeight, "player")
             table.insert(entities, player)
-        elseif object.name == "Spike" then
-            table.insert(entities, Spike(spikeImage, object.x, object.y, 32, 32, "spike"))
         end
     end
 end
@@ -40,6 +43,15 @@ end
 function Game:update(dt)
     -- reset collisions
     self.map:update(dt)
+
+    -- filter for player
+    local playerFilter = function(item, other)
+        if other.name == "slowblock" then
+            return 'cross'
+        else
+            return 'slide'
+        end
+    end
 
     -- update all entities
     for i=1, #entities do
@@ -51,7 +63,14 @@ function Game:update(dt)
             local destX = entity.x + entity.xVelocity * dt
             local destY =  entity.y + entity.yVelocity * dt
             local nextX, nextY = 0, 0
-            nextX, nextY, cols = world:move(entity, destX, destY)
+
+            -- Only filter the player
+            if entity.name == "player" then
+                nextX, nextY, cols = world:move(entity, destX, destY, playerFilter)
+            else
+                nextX, nextY, cols = world:move(entity, destX, destY)
+            end
+
             entity.x, entity.y = nextX, nextY
             self:checkCollisions(entity, cols)
         end
@@ -82,6 +101,10 @@ function Game:checkCollisions(entity, cols)
         end
         if otherCollisionName == "spike" then
             entity.speed = 300
+        end
+        if otherCollisionName == "slowblock" then
+            entity.gravity = 200
+            entity.weight = 50
         end
     end
 end

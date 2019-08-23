@@ -1,21 +1,9 @@
 ### TODO
-    can check
-    <code>
-    for i=1,#self.entities do
-      if self.entities[i]:is(DynamicEntity) then
-        self.entities[i]:updatePhysics(dt)
-      end
-      -- local destX = player.x + player.xVelocity * dt
-      -- local destY = player.y + player.yVelocity * dt
-      -- The lines above will just need to be entity.x _ entity.xVelocity * dt.
-      -- if the entity is dynamic and needs to move
-      self.entities[i].x, self.entities[i].y, cols = self.world:move( self.entities[i], self.entities[i].x, self.entities[i].y )
-      self:checkCols(self.entities[i], cols)
-      end
-    </code>
-
 ------------------------------------------------------------------------------------------
-- [ ] add spike
+- [ ] Can actually clean this up by adding the checkCollisions and nextX, nextY, cols = world:move(entity, destX, destY) inside of each
+      object's update. this way i can put the logic for the player collisions inside of the player itself's update rather than check that for each object
+      in the game https://github.com/kikito/bump.lua/tree/demo/entities
+- [x] add spike
 - [ ] IN-PROGRESS: (Started using entities for drawing) Create array of entities in the game class
 - [ ] Add game states with controller http://lua.space/gamedev/handling-input-in-lua
 - [ ] Clean up the collision detection somehow.. collisionhandler class?
@@ -25,7 +13,6 @@
 - [x] Move everything out of main. create a game class that deals with a list of entities and loading the map
 - [x] Collision detection from bump
 -------------------------------------------------------------------------------------------------
-***** NOTES *******
 NOTE: The reason why gravity wasn't working was because we were constantly incrementng it!
       realize now this is stupid. Why would you constantly increment the gravity value itself
       we create a dy (destination y) and set it: like so.. or like this later on
