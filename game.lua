@@ -44,35 +44,12 @@ function Game:update(dt)
     -- reset collisions
     self.map:update(dt)
 
-    -- filter for player
-    local playerFilter = function(item, other)
-        if other.name == "slowblock" then
-            return 'cross'
-        else
-            return 'slide'
-        end
-    end
-
     -- update all entities
     for i=1, #entities do
         local entity = entities[i]
         -- only update and check collisions for dynamic entities
         if entity:is(DynamicEntity) then
             entity:update(dt)
-
-            local destX = entity.x + entity.xVelocity * dt
-            local destY =  entity.y + entity.yVelocity * dt
-            local nextX, nextY = 0, 0
-
-            -- Only filter the player
-            if entity.name == "player" then
-                nextX, nextY, cols = world:move(entity, destX, destY, playerFilter)
-            else
-                nextX, nextY, cols = world:move(entity, destX, destY)
-            end
-
-            entity.x, entity.y = nextX, nextY
-            self:checkCollisions(entity, cols)
         end
     end
 
@@ -84,34 +61,8 @@ function Game:update(dt)
     end
 end
 
--- Handle all collisions for the entity
-function Game:checkCollisions(entity, cols)
-    -- THIS GOES IN FUNCTION
-    otherCollisionName = ""
-
-    -- Reset if an entity is touching the ground
-    entity.onGround = false
-    for i,col in ipairs (cols) do
-        otherCollisionName = tostring(col.other.name)
-        if col.normal.y == -1 or col.normal.y == 1 then
-            entity.yVelocity = 0
-        end
-        if col.normal.y == -1  then
-            entity.onGround = true
-        end
-        if otherCollisionName == "spike" then
-            entity.speed = 300
-        end
-        if otherCollisionName == "slowblock" then
-            entity.gravity = 200
-            entity.weight = 50
-        end
-    end
-end
-
 function Game:draw()
     -- Scale and draw the world
-
     love.graphics.push()
         local scale = 2
         local screenWidth = love.graphics.getWidth() / scale
@@ -139,8 +90,6 @@ function Game:draw()
         love.graphics.print("yVelocity: " .. player.yVelocity, 32, 64)
         love.graphics.print("xVelocity: " .. player.xVelocity, 32, 96)
         love.graphics.print("onGround: " .. tostring(player.onGround), 32, 128)
-        love.graphics.print("Collision with: " .. otherCollisionName, 32, 160)
-        love.graphics.print("Throw time: " .. player.timeToThrow, 32, 192)
+        love.graphics.print("Throw time: " .. player.timeToThrow, 32, 160)
     end
-
 end
