@@ -3,10 +3,10 @@
 - [ ] Can actually clean this up by adding the checkCollisions and nextX, nextY, cols = world:move(entity, destX, destY) inside of each
       object's update. this way i can put the logic for the player collisions inside of the player itself's update rather than check that for each object
       in the game https://github.com/kikito/bump.lua/tree/demo/entities
-- [x] add spike
-- [ ] IN-PROGRESS: (Started using entities for drawing) Create array of entities in the game class
+- [ ] Clean up the collision detection somehow.. collisionhandler class ^ the above cleans it up - just look at Bump docs
 - [ ] Add game states with controller http://lua.space/gamedev/handling-input-in-lua
-- [ ] Clean up the collision detection somehow.. collisionhandler class?
+- [x] add spike
+- [x] IN-PROGRESS: (Started using entities for drawing) Create array of entities in the game class
 - [x] create alarm for creating tree
 - [x] Add dynamic entity to inherit from entity
 - [x] Now that everything is out of main experiment more with the STI library and tilemaps
@@ -41,20 +41,3 @@ NOTE: !!! Assuming I can use this layer.update for animated tiles on the actual 
          we use sti to soley grab data and draw the map
         also the map can have collision data on it
       https://github.com/andriadze/Love2D_Platformer_Example/blob/master/game.lua
-
-
-- draw the player on the map
-
-
-     player.draw = function(self)
-         love.graphics.draw(
-         player.image,
-         math.floor(player.x),
-         math.floor(player.y),
-         0,
-         1,
-         1,
-         10,--self.player.ox,
-         10--self.player.oy
-         )
-     end
