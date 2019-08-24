@@ -81,7 +81,7 @@ end
 
 function Player:createTree()
     local treeImage = love.graphics.newImage("data/image/tree.png")
-    newTree = Tree(treeImage, self.x + 30, self.y - 10, 32, 64, "tree")
+    newTree = Tree(treeImage, self.x + 60, self.y - 10, 32, 64, "tree")
     -- Add this to our entities
     table.insert(entities, newTree)
 end
