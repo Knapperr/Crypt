@@ -12,8 +12,20 @@
 - [x] Move everything out of main. create a game class that deals with a list of entities and loading the map
 - [x] Collision detection from bump
 -------------------------------------------------------------------------------------------------
+### IDEA:
+    Super Monkey Ball 2D. (look up code on the github example for loading the next tiled map)
+    -- will need to change the load code for the game class maybe need a level clas
+
+    so the idea is to have it where you have to get to the end of the level in 30-60 seconds.
+    there will be speed up power up. a slow down power up taht slows down all of the objects in the level like monkey ball
+    change colour palette. (hamster in a ball?) some kind of animal that is moving through the level really fast but don't
+    use an animal that is actually fast like a cheetah. (sloth ball) sloths in fast moving balls getting through the level
+    need to have a checkerboard that SEGA aesthetic
+
+### NOTES
+
 NOTE: The reason why gravity wasn't working was because we were constantly incrementng it!
-      realize now this is stupid. Why would you constantly increment the gravity value itself
+realize now this is stupid. Why would you constantly increment the gravity value itself
       we create a dy (destination y) and set it: like so.. or like this later on
 
 
