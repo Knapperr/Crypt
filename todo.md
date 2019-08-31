@@ -13,16 +13,11 @@
 - [x] Collision detection from bump
 -------------------------------------------------------------------------------------------------
 ### IDEA:
-    Super Monkey Ball 2D. (look up code on the github example for loading the next tiled map)
-    -- will need to change the load code for the game class maybe need a level clas
+  Skellboy woke up in the catacombs. He needs to escape as fast as possible before he gets trapped. Run towards the light and take off! Each level starts with skellboy coming out of the tomb each level ends with him floating up to the golden yellow light. These animations just be fast and allow quick progression to the next level like meatboy.
 
-    have power ups in their own table. Remember that you need to iterator through the list backwards to remove them
+  When he comes out of tomb and hits ground big letters pop up saying GO GO ! Maybe voice acting too
 
-    so the idea is to have it where you have to get to the end of the level in 30-60 seconds.
-    there will be speed up power up. a slow down power up taht slows down all of the objects in the level like monkey ball
-    change colour palette. (hamster in a ball?) some kind of animal that is moving through the level really fast but don't
-    use an animal that is actually fast like a cheetah. (sloth ball) sloths in fast moving balls getting through the level
-    need to have a checkerboard that SEGA aesthetic
+  Ending is WIN WIN!
 
 ### NOTES
 

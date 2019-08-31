@@ -4,10 +4,16 @@ Player = DynamicEntity:extend()
 function Player:new(image, x, y, width, height, name)
     Player.super.new(self, x, y, width, height, image, name)
     self.speed = 150
-    self.gravity = 530
+    self.gravity = 350
     self.weight = 50
     self.jumpVelocity = -170
     self.timeToThrow = 0
+    self.dead = false
+
+    -- Direction
+    self.left = -1
+    self.right = 1
+    self.direction = self.right
 
     -- Animation
     local g = anim8.newGrid(32, 32, image:getWidth(), image:getHeight())
@@ -37,11 +43,11 @@ function Player:movement(dt)
 
     -- Animation & movement
     if love.keyboard.isDown("a") then
-        self.direction = -1
+        self.direction = self.left
         self.animationFlipped:update(dt)
         self.xVelocity = -self.speed
     elseif love.keyboard.isDown("d") then
-        self.direction = 1
+        self.direction = self.right
         self.animation:update(dt)
         self.xVelocity = self.speed
     else
@@ -90,9 +96,9 @@ end
 ------------------------------------------------------------------------------------------
 function Player:draw()
     if self.image ~= nil then
-        if self.direction == 1 then
+        if self.direction == self.right then
             self.animation:draw(self.image, math.floor(self.x) , math.floor(self.y))
-        elseif self.direction == -1 then
+        elseif self.direction == self.left then
             self.animationFlipped:draw(self.image, math.floor(self.x) , math.floor(self.y))
         end
     end
@@ -130,7 +136,9 @@ function Player:checkCollisions(dt)
             self.onGround = true
         end
         if otherCollisionName == "spike" then
-            self.speed = 300
+            -- TODO: Add actual logic
+            -- Dead restart game
+            self.dead = true
         end
         if otherCollisionName == "slowblock" then
             self.gravity = 200

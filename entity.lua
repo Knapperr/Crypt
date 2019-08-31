@@ -8,7 +8,6 @@ function Entity:new(x, y, width, height, image, name)
     self.h = height or 32
     self.image = image
     self.name = name
-    self.direction = 1
 
     -- Add the entity to our sti(tiled) world
     if world ~= nil then

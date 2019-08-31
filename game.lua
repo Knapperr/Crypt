@@ -51,6 +51,14 @@ function Game:update(dt)
         if entity:is(DynamicEntity) then
             entity:update(dt)
         end
+
+        -- Have to check for death. Leave the update loop as well
+        if entity:is(Player) then
+            if entity.dead == true then
+                love.load()
+                break;
+            end
+        end
     end
 
     -- Debug controls
@@ -58,6 +66,11 @@ function Game:update(dt)
         self.showDebug = false
     elseif love.keyboard.isDown("2") then
         self.showDebug = true
+    end
+
+    -- Restart game
+    if love.keyboard.isDown("r") then
+        love.load()
     end
 end
 
