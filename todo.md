@@ -15,9 +15,9 @@
 ### IDEA:
   Skellboy woke up in the catacombs. He needs to escape as fast as possible before he gets trapped. Run towards the light and take off! Each level starts with skellboy coming out of the tomb each level ends with him floating up to the golden yellow light. These animations just be fast and allow quick progression to the next level like meatboy.
 
-  When he comes out of tomb and hits ground big letters pop up saying GO GO ! Maybe voice acting too
+  When he comes out of tomb(animation)(voice acted) and hits ground big letters pop up saying GO GO ! 
 
-  Ending is WIN WIN!
+  Ending is WIN WIN! (animation)(voice acted)
 
 ### NOTES
 
