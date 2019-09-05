@@ -10,6 +10,7 @@ require "player"
 require "tree"
 require "spike"
 require "slow_block"
+require "powerup"
 
 anim8 = require 'lib/anim8'
 
