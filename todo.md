@@ -1,6 +1,7 @@
 ### TODO
 ------------------------------------------------------------------------------------------
-- [ ] Main gameplay idea
+- [ ] Power ups - remove from the list of power ups backwards
+- [ ] 
 - [ ] Add game states with controller http://lua.space/gamedev/handling-input-in-lua
 - [x] Can actually clean this up by adding the checkCollisions and nextX, nextY, cols = world:move(entity, destX, destY) inside of eachobject's update. this way i can put the logic for the player collisions inside of the player itself's update rather than check that for each object in the game https://github.com/kikito/bump.lua/tree/demo/entities
 - [x] Clean up the collision detection somehow.. collisionhandler class ^ the above cleans it up - just look at Bump docs
