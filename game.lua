@@ -23,7 +23,7 @@ function Game:load()
     local playerImage = love.graphics.newImage("data/image/skellyanim.png")
     local spikeImage = love.graphics.newImage("data/image/spike.png")
     local slowblockImage = love.graphics.newImage("data/image/slowblock.png")
-    local speedPowerupImage = love.graphics.newImage("data/image/powerspeed.png")
+    local speedPowerupImage = love.graphics.newImage("data/image/powerspeedsmall.png")
     -- WxH is not based off of image. The image is a sprite sheet
     local playerWidth = 32
     local playerHeight = 32
@@ -37,7 +37,7 @@ function Game:load()
             player = Player(playerImage, object.x, object.y, playerWidth, playerHeight, "player")
             table.insert(entities, player)
         elseif object.name == "SpeedPowerup" then
-            table.insert(entities, Powerup(speedPowerupImage, object.x, object.y, 32, 32, "speedpowerup"))
+            table.insert(entities, Powerup(speedPowerupImage, object.x, object.y, 16, 16, "speedpowerup"))
         end
     end
 end
