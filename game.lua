@@ -12,6 +12,7 @@ end
 function Game:load()
     -- global entities
     entities = {}
+    powerups = {}
 
     -- init bump
     world = bump.newWorld()
@@ -30,7 +31,8 @@ function Game:load()
     local playerHeight = 32
     player = {}
     for k, object in pairs(self.map.objects) do
-        if object.name == "Spike" then
+        if object.name == "Spike" then  
+        
             table.insert(entities, Spike(spikeImage, object.x, object.y, 32, 32, "spike"))
         elseif object.name == "SlowBlock" then
             table.insert(entities, SlowBlock(slowblockImage, object.x, object.y, 32, 32, "slowblock"))
@@ -38,9 +40,9 @@ function Game:load()
             player = Player(playerImage, object.x, object.y, playerWidth, playerHeight, "player")
             table.insert(entities, player)
         elseif object.name == "SpeedPowerup" then
-            table.insert(entities, Powerup(speedPowerupImage, object.x, object.y, 16, 16, "speedpowerup"))
+            table.insert(powerups, Powerup(speedPowerupImage, object.x, object.y, 16, 16, "powerup"))
         elseif object.name == "GravityPowerup" then
-            table.insert(entities, Powerup(gravityPowerupImage, object.x, object.y, 16, 16, "gravitypowerup"))
+            table.insert(powerups, Powerup(gravityPowerupImage, object.x, object.y, 16, 16, "powerup"))
         end
     end
 end
@@ -100,6 +102,12 @@ function Game:draw()
         for i=1, #entities do
             entities[i]:draw()
         end
+
+        -- Draw powerups 
+        for i=1, #powerups do
+            powerups[i]:draw()
+        end
+        
         --NOTE: player:draw()
     love.graphics.pop()
 
