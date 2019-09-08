@@ -107,7 +107,7 @@ end
 -- Collisions
 ----------------------------------------------------------------------------------------
 function Player:filter(other)
-    if other.name == "slowblock" then
+    if other.name == "powerup" then
         return 'cross'
     else
         return 'slide'
