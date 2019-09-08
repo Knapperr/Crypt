@@ -1,9 +1,10 @@
 ### TODO
 ------------------------------------------------------------------------------------------
-- [ ] gravity power up animation
+- [ ] change game camera to use gamera - only render what is on screen with self.world:queryRect https://github.com/kikito/bump.lua/blob/demo/map.lua
 - [ ] Power ups - add animation to powerups - will have to be dynamic like passed through constructor for animation length
 - [ ] Power ups - remove from the list of power ups backwards
 - [ ] Add game states with controller http://lua.space/gamedev/handling-input-in-lua
+- [x] gravity power up animation
 - [x] Can actually clean this up by adding the checkCollisions and nextX, nextY, cols = world:move(entity, destX, destY) inside of eachobject's update. this way i can put the logic for the player collisions inside of the player itself's update rather than check that for each object in the game https://github.com/kikito/bump.lua/tree/demo/entities
 - [x] Clean up the collision detection somehow.. collisionhandler class ^ the above cleans it up - just look at Bump docs
 - [x] add spike
