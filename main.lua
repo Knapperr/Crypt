@@ -46,7 +46,7 @@ function love.draw()
     game:draw()
 
     -- Report profiler
-   -- love.graphics.print(love.report or "Please wait...")
+   --love.graphics.print(love.report or "Please wait...")
     --]]
 end
 

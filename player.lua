@@ -4,9 +4,9 @@ Player = DynamicEntity:extend()
 function Player:new(image, x, y, width, height, name)
     Player.super.new(self, x, y, width, height, image, name)
     self.speed = 150
-    self.gravity = 350
+    self.gravity = 360
     self.weight = 50
-    self.jumpVelocity = -170
+    self.jumpVelocity = -160
     self.timeToThrow = 0
     self.dead = false
 
