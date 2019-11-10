@@ -144,5 +144,10 @@ function Player:checkCollisions(dt)
             self.gravity = 200
             self.weight = 50
         end
+        if otherCollisionName == "powerup" then
+            -- TODO: change to speedincrease() function
+            self.speed = 250
+        end
     end
 end
+

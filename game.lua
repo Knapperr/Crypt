@@ -7,6 +7,8 @@ function Game:new()
 
     -- How many collisions are happening
     self.cols_len = 0
+    self.screenHeight = 0
+    self.screenWidth = 0
 end
 
 function Game:load()
@@ -52,11 +54,12 @@ function Game:update(dt)
     -- reset collisions
     self.map:update(dt)
 
+
     -- update all entities
     for i=1, #entities do
         local entity = entities[i]
         -- only update and check collisions for dynamic entities
-        if entity:is(DynamicEntity) then
+        if entity:is(DynamicEntity) and entity.w <= self.screenWidth and entity.h <= self.screenHeight then
             entity:update(dt)
         end
 
@@ -86,29 +89,30 @@ function Game:draw()
     -- Scale and draw the world
     love.graphics.push()
         local scale = 2
-        local screenWidth = love.graphics.getWidth() / scale
-        local screenHeight = love.graphics.getHeight() / scale
+        self.screenWidth = love.graphics.getWidth() / scale
+        self.screenHeight = love.graphics.getHeight() / scale
+
+        -- TODO: Remove this and use an actual camera
+        local tx = math.floor(player.x - (self.screenWidth / 2))
+        local ty = math.floor(player.y - (self.screenHeight / 2))
 
         love.graphics.scale(scale)
-        -- TODO: Remove this and use an actual camera
-        local tx = math.floor(player.x - (screenWidth / 2))
-        local ty = math.floor(player.y - (screenHeight / 2))
-
         love.graphics.translate(-tx, -ty)
         self.map:draw(-tx, -ty, scale, scale)
-        --self.map:draw(1, 1, scale, scale) -- this scales the map
 
-        -- Draw entities
+        -- Draw entities that are on screen
         for i=1, #entities do
-            entities[i]:draw()
+            if entities[i].w <= self.screenWidth and entities[i].h <= self.screenHeight then
+                entities[i]:draw()
+            end
         end
 
-        -- Draw powerups 
+        -- Draw powerups that are on screen
         for i=1, #powerups do
-            powerups[i]:draw()
+            if powerups[i].w <= self.screenWidth and powerups[i].h <= self.screenHeight then
+                powerups[i]:draw()
+            end
         end
-        
-        --NOTE: player:draw()
     love.graphics.pop()
 
     -- DEBUG PLAYER

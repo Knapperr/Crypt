@@ -8,7 +8,7 @@
 - [x] Can actually clean this up by adding the checkCollisions and nextX, nextY, cols = world:move(entity, destX, destY) inside of eachobject's update. this way i can put the logic for the player collisions inside of the player itself's update rather than check that for each object in the game https://github.com/kikito/bump.lua/tree/demo/entities
 - [x] Clean up the collision detection somehow.. collisionhandler class ^ the above cleans it up - just look at Bump docs
 - [x] add spike
-- [x] IN-PROGRESS: (Started using entities for drawing) Create array of entities in the game class
+- [x] Create array of entities in the game class
 - [x] create alarm for creating tree
 - [x] Add dynamic entity to inherit from entity
 - [x] Now that everything is out of main experiment more with the STI library and tilemaps
