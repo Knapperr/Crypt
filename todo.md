@@ -1,5 +1,6 @@
 ### TODO
 ------------------------------------------------------------------------------------------
+- [ ] figure out why there is a random stutter. 
 - [ ] change game camera to use gamera - only render what is on screen with self.world:queryRect https://github.com/kikito/bump.lua/blob/demo/map.lua
 - [ ] Power ups - add animation to powerups - will have to be dynamic like passed through constructor for animation length
 - [ ] Power ups - remove from the list of power ups backwards
