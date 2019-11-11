@@ -3,10 +3,11 @@ Player = DynamicEntity:extend()
 
 function Player:new(image, x, y, width, height, name)
     Player.super.new(self, x, y, width, height, image, name)
-    self.speed = 150
+    self.speed = 40
+    self.maxSpeed = 180
     self.gravity = 360
     self.weight = 50
-    self.jumpVelocity = -160
+    self.jumpVelocity = -175
     self.timeToThrow = 0
     self.dead = false
 
@@ -43,13 +44,29 @@ function Player:movement(dt)
 
     -- Animation & movement
     if love.keyboard.isDown("a") then
+        if self.direction ~= self.left then 
+            self:createDust(self.left)
+        end
+
         self.direction = self.left
         self.animationFlipped:update(dt)
-        self.xVelocity = -self.speed
+        self.xVelocity = self.xVelocity - self.speed
+        if self.xVelocity <= -self.maxSpeed then
+            self.xVelocity = -self.maxSpeed
+        end
+        --self.xVelocity = -self.speed
     elseif love.keyboard.isDown("d") then
+        if self.direction ~= self.right then
+            self:createDust(self.right)
+        end
         self.direction = self.right
         self.animation:update(dt)
-        self.xVelocity = self.speed
+        
+        self.xVelocity = self.xVelocity + self.speed
+        if self.xVelocity >= self.maxSpeed then
+            self.xVelocity = self.maxSpeed
+        end
+        --self.xVelocity = self.speed
     else
         self.xVelocity = 0
     end
@@ -58,7 +75,7 @@ function Player:movement(dt)
         self:jump()
     end
 
-    -- Increate the x and y values
+    -- Increase the x and y values
     self.x = self.x + self.xVelocity * dt
     self.y = self.y + self.yVelocity * dt
 end
@@ -90,6 +107,19 @@ function Player:createTree()
     newTree = Tree(treeImage, self.x + 60, self.y - 10, 32, 64, "tree")
     -- Add this to our entities
     table.insert(entities, newTree)
+end
+
+function Player:createDust(direction)
+    local position = 0
+    if direction == self.left then
+        position = 10
+    elseif direction == self.right then
+        position = -10
+    end 
+
+    local dustImage = love.graphics.newImage("data/image/dust.png")
+    dust = Image(self.x - position, self.y + 10, 10, 10, dustImage)
+    table.insert(images, dust)
 end
 
 -- Draw Call

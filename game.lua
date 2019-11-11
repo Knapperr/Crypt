@@ -18,6 +18,7 @@ function Game:load()
     -- global entities
     entities = {}
     powerups = {}
+    images = {}
 
     -- init bump
     world = bump.newWorld()
@@ -78,6 +79,10 @@ function Game:update(dt)
         end
     end
 
+    for i=1, #images do
+        images[i]:update(dt)
+    end
+
     -- Debug controls
     if love.keyboard.isDown("1") then
         self.showDebug = false
@@ -123,6 +128,12 @@ function Game:draw()
                 powerups[i]:draw()
             end
         end
+
+        -- Draw images 
+        for i=1, #images do
+            images[i]:draw()
+        end
+
     love.graphics.pop()
 
     -- DEBUG PLAYER
