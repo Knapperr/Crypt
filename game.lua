@@ -27,7 +27,10 @@ function Game:load()
 
     -- Grab the player from the map
     -- We can use this object loop to grab everything and just init it to the player
+
+    -- TODO: Need a resource handler file
     local playerImage = love.graphics.newImage("data/image/skellyanim.png")
+    local floatImage = love.graphics.newImage("data/image/floatblock.png")
     local spikeImage = love.graphics.newImage("data/image/spike.png")
     local slowblockImage = love.graphics.newImage("data/image/slowblock.png")
     local speedPowerupImage = love.graphics.newImage("data/image/powerspeedsmall.png")
@@ -40,6 +43,8 @@ function Game:load()
         if object.name == "Spike" then
 
             table.insert(entities, Spike(spikeImage, object.x, object.y, 32, 32, "spike"))
+        elseif object.name == "Float" then
+            table.insert(entities, FloatBlock(floatImage, object.x, object.y, 32, 32, "float"))
         elseif object.name == "SlowBlock" then
             table.insert(entities, SlowBlock(slowblockImage, object.x, object.y, 32, 32, "slowblock"))
         elseif object.name == "Player" then
@@ -143,8 +148,7 @@ function Game:draw()
         love.graphics.print("xVelocity: " .. player.xVelocity, 32, 96)
         love.graphics.print("onGround: " .. tostring(player.onGround), 32, 128)
         love.graphics.print("Throw time: " .. player.timeToThrow, 32, 160)
-        love.graphics.print("player x: " ..player.x, 32, 220)
-        love.graphics.print("player y: " ..player.y, 32, 240)
+        love.graphics.print("player state: " ..player.state, 32, 220)
 
         love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 32, 190)
     end

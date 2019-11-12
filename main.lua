@@ -5,6 +5,7 @@ sti = require "lib/sti"
 
 require "game"
 require "entity"
+require "float_block"
 require "image"
 require "dynamic_entity"
 require "player"

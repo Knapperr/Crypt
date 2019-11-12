@@ -11,11 +11,15 @@ function Player:new(image, x, y, width, height, name)
     self.timeToThrow = 0
     self.dead = false
 
+    -- State
+    self.state = 0
+
     -- Direction
     self.left = -1
     self.right = 1
     self.direction = self.right
 
+    -- Controller direction
     self.stickDirection = 0
 
     -- Animation
@@ -27,8 +31,10 @@ end
 -- Update & Movement
 ------------------------------------------------------------------------------------------
 function Player:update(dt)
-    -- gamepad dir
     self.stickDirection = joystick:getGamepadAxis("leftx")
+
+    self:checkState()
+
     -- super contains applyGravity
     Player.super.update(self, dt)
     self:movement(dt)
@@ -37,6 +43,23 @@ function Player:update(dt)
     -- super is calling it already using
     -- my overloaded version
     -- self:moveColliding(dt)
+end
+
+-- 0 = Not touching a float block
+-- 1 = Touching a float block
+function Player:checkState()
+    if self.state == 0 then
+        self.gravity = 360
+        self.weight = 50
+        self.jumpVelocity = -175
+    elseif self.state == 1 then
+        self.onGround = false
+        self.gravity = 380
+        self.weight = 30
+        self.jumpVelocity = -195
+    end
+
+
 end
 
 function Player:movement(dt)
@@ -58,7 +81,6 @@ function Player:movement(dt)
         if self.xVelocity <= -self.maxSpeed then
             self.xVelocity = -self.maxSpeed
         end
-        --self.xVelocity = -self.speed
     elseif love.keyboard.isDown("d") or joystick:isGamepadDown("dpright") or self.stickDirection == 1  then
         if self.direction ~= self.right then
             --self:createDust(self.right)
@@ -70,7 +92,6 @@ function Player:movement(dt)
         if self.xVelocity >= self.maxSpeed then
             self.xVelocity = self.maxSpeed
         end
-        --self.xVelocity = self.speed
     else
         self.xVelocity = 0
     end
@@ -141,7 +162,7 @@ end
 -- Collisions
 ----------------------------------------------------------------------------------------
 function Player:filter(other)
-    if other.name == "powerup" then
+    if other.name == "powerup" or other.name == "float" then
         return 'cross'
     else
         return 'slide'
@@ -166,8 +187,13 @@ function Player:checkCollisions(dt)
         if col.normal.y == -1 or col.normal.y == 1 then
             self.yVelocity = 0
         end
-        if col.normal.y == -1  then
+        if col.normal.y == -1 then
             self.onGround = true
+            self.state = 0
+        end
+        if otherCollisionName == "float" then
+            self.onGround = true
+            self.state = 1
         end
         if otherCollisionName == "spike" then
             -- TODO: Add actual logic
