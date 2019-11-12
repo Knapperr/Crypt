@@ -37,8 +37,8 @@ function Game:load()
     local playerHeight = 30
     player = {}
     for k, object in pairs(self.map.objects) do
-        if object.name == "Spike" then  
-        
+        if object.name == "Spike" then
+
             table.insert(entities, Spike(spikeImage, object.x, object.y, 32, 32, "spike"))
         elseif object.name == "SlowBlock" then
             table.insert(entities, SlowBlock(slowblockImage, object.x, object.y, 32, 32, "slowblock"))
@@ -110,7 +110,7 @@ function Game:draw()
         love.graphics.scale(scale)
         love.graphics.translate(-tx, -ty)
         self.map:draw(-tx, -ty, scale, scale)
-        
+
         -- NOTE: Camera system
         --love.graphics.translate(-cameraX, -cameraY)
         --self.map:draw(-cameraX, -cameraY, scale, scale)
@@ -129,7 +129,7 @@ function Game:draw()
             end
         end
 
-        -- Draw images 
+        -- Draw images
         for i=1, #images do
             images[i]:draw()
         end

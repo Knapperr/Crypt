@@ -16,6 +16,8 @@ function Player:new(image, x, y, width, height, name)
     self.right = 1
     self.direction = self.right
 
+    self.stickDirection = 0
+
     -- Animation
     local g = anim8.newGrid(32, 32, image:getWidth(), image:getHeight())
     self.animation = anim8.newAnimation(g('1-5', 1), 0.1)
@@ -25,14 +27,16 @@ end
 -- Update & Movement
 ------------------------------------------------------------------------------------------
 function Player:update(dt)
-   -- super contains applyGravity
-   Player.super.update(self, dt)
-   self:movement(dt)
-   self:controls(dt)
-  -- NOTE: Don't need to call movecolliding
-  -- super is calling it already using
-  -- my overloaded version
-  -- self:moveColliding(dt)
+    -- gamepad dir
+    self.stickDirection = joystick:getGamepadAxis("leftx")
+    -- super contains applyGravity
+    Player.super.update(self, dt)
+    self:movement(dt)
+    self:controls(dt)
+    -- NOTE: Don't need to call movecolliding
+    -- super is calling it already using
+    -- my overloaded version
+    -- self:moveColliding(dt)
 end
 
 function Player:movement(dt)
@@ -43,9 +47,9 @@ function Player:movement(dt)
     end
 
     -- Animation & movement
-    if love.keyboard.isDown("a") then
-        if self.direction ~= self.left then 
-            self:createDust(self.left)
+    if love.keyboard.isDown("a") or joystick:isGamepadDown("dpleft") or self.stickDirection == -1 then
+        if self.direction ~= self.left then
+            --self:createDust(self.left)
         end
 
         self.direction = self.left
@@ -55,13 +59,13 @@ function Player:movement(dt)
             self.xVelocity = -self.maxSpeed
         end
         --self.xVelocity = -self.speed
-    elseif love.keyboard.isDown("d") then
+    elseif love.keyboard.isDown("d") or joystick:isGamepadDown("dpright") or self.stickDirection == 1  then
         if self.direction ~= self.right then
-            self:createDust(self.right)
+            --self:createDust(self.right)
         end
         self.direction = self.right
         self.animation:update(dt)
-        
+
         self.xVelocity = self.xVelocity + self.speed
         if self.xVelocity >= self.maxSpeed then
             self.xVelocity = self.maxSpeed
@@ -71,7 +75,7 @@ function Player:movement(dt)
         self.xVelocity = 0
     end
 
-    if love.keyboard.isDown("w") then
+    if love.keyboard.isDown("w") or joystick:isGamepadDown("a")  then
         self:jump()
     end
 
@@ -115,7 +119,7 @@ function Player:createDust(direction)
         position = 10
     elseif direction == self.right then
         position = -10
-    end 
+    end
 
     local dustImage = love.graphics.newImage("data/image/dust.png")
     dust = Image(self.x - position, self.y + 10, 10, 10, dustImage)
@@ -180,4 +184,3 @@ function Player:checkCollisions(dt)
         end
     end
 end
-

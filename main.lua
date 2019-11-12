@@ -23,7 +23,10 @@ function love.load()
     --love.profiler.hookall("Lua")
     --love.profiler.start()
     --]]
-    
+    -- Set up player input
+    local joysticks = love.joystick.getJoysticks()
+    joystick = joysticks[1]
+
     love.graphics.setBackgroundColor( 25/255, 25/255, 25/255, 50/100)
     love.graphics.setDefaultFilter("nearest", "nearest")
     game = Game()
