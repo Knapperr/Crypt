@@ -162,7 +162,7 @@ end
 -- Collisions
 ----------------------------------------------------------------------------------------
 function Player:filter(other)
-    if other.name == "powerup" or other.name == "float" then
+    if other.name == "powerup" or other.name == "float" or other.name == "slowblock" then
         return 'cross'
     else
         return 'slide'
@@ -184,13 +184,24 @@ function Player:checkCollisions(dt)
     self.onGround = false
     for i,col in ipairs (cols) do
         local otherCollisionName = tostring(col.other.name)
-        if col.normal.y == -1 or col.normal.y == 1 then
+
+
+        -- NOTE: CANT CHECK THIS... need to think of another way
+        -- maybe do an if first saying if its slowblock whatever self.onGround = false
+        -- then say elseif
+        -- THIS IS WORKING
+        if otherCollisionName == "slowblock" then
+            self.onGround = false
+        elseif col.normal.y == -1 or col.normal.y == 1 then
             self.yVelocity = 0
-        end
-        if col.normal.y == -1 then
-            self.onGround = true
             self.state = 0
+            self.onGround = true
         end
+        -- elseif col.normal.y == -1 then
+        --     self.onGround = true
+        -- end
+        -- NOTE: END COMMENT
+        --------------------------------------------------
         if otherCollisionName == "float" then
             self.onGround = true
             self.state = 1
@@ -199,10 +210,6 @@ function Player:checkCollisions(dt)
             -- TODO: Add actual logic
             -- Dead restart game
             self.dead = true
-        end
-        if otherCollisionName == "slowblock" then
-            self.gravity = 200
-            self.weight = 50
         end
         if otherCollisionName == "powerup" then
             -- TODO: change to speedincrease() function
