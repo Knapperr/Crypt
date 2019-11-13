@@ -3,7 +3,7 @@ Player = DynamicEntity:extend()
 
 function Player:new(image, x, y, width, height, name)
     Player.super.new(self, x, y, width, height, image, name)
-    self.speed = 40
+    self.speed = 10
     self.maxSpeed = 180
     self.gravity = 360
     self.weight = 50
@@ -21,6 +21,10 @@ function Player:new(image, x, y, width, height, name)
 
     -- Controller direction
     self.stickDirection = 0
+
+    -- reset ox and oy because our image is very long (sprite sheet)
+    self.ox = self.image:getWidth() / 14.5
+    self.oy = self.image:getHeight() / 2
 
     -- Animation
     local g = anim8.newGrid(32, 32, image:getWidth(), image:getHeight())
@@ -151,10 +155,11 @@ end
 ------------------------------------------------------------------------------------------
 function Player:draw()
     if self.image ~= nil then
+        love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
         if self.direction == self.right then
-            self.animation:draw(self.image, math.floor(self.x) , math.floor(self.y))
+            self.animation:draw(self.image, math.floor(self.x), math.floor(self.y), 0, 1, 1, self.ox, self.oy)
         elseif self.direction == self.left then
-            self.animationFlipped:draw(self.image, math.floor(self.x) , math.floor(self.y))
+            self.animationFlipped:draw(self.image, math.floor(self.x), math.floor(self.y), 0, 1, 1, self.ox, self.oy)
         end
     end
 end

@@ -36,8 +36,8 @@ function Game:load()
     local speedPowerupImage = love.graphics.newImage("data/image/powerspeedsmall.png")
     local gravityPowerupImage = love.graphics.newImage("data/image/powergravity.png")
     -- WxH is not based off of image. The image is a sprite sheet
-    local playerWidth = 30
-    local playerHeight = 30
+    local playerWidth = 15
+    local playerHeight = 15
     player = {}
     for k, object in pairs(self.map.objects) do
         if object.name == "Spike" then
@@ -114,6 +114,7 @@ function Game:draw()
 
         love.graphics.scale(scale)
         love.graphics.translate(-tx, -ty)
+
         self.map:draw(-tx, -ty, scale, scale)
 
         -- NOTE: Camera system
@@ -147,9 +148,9 @@ function Game:draw()
         love.graphics.print("yVelocity: " .. player.yVelocity, 32, 64)
         love.graphics.print("xVelocity: " .. player.xVelocity, 32, 96)
         love.graphics.print("onGround: " .. tostring(player.onGround), 32, 128)
-        love.graphics.print("Throw time: " .. player.timeToThrow, 32, 160)
-        love.graphics.print("player state: " ..player.state, 32, 220)
-
+        love.graphics.print("player state: " ..player.state, 32, 160)
         love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 32, 190)
+        love.graphics.print("x: " .. tostring(player.x), 32, 220)
+        love.graphics.print("y: " .. tostring(player.y), 32, 240)
     end
 end
