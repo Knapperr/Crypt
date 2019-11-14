@@ -54,9 +54,6 @@ function Game:load()
             table.insert(powerups, Powerup(speedPowerupImage, object.x, object.y, 16, 16, "powerup"))
         elseif object.name == "GravityPowerup" then
             table.insert(powerups, Powerup(gravityPowerupImage, object.x, object.y, 16, 16, "powerup"))
-        elseif object.name == "CameraHint" then
-            cameraX = object.x / 2
-            cameraY = object.y / 2
         end
     end
 end

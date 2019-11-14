@@ -3,7 +3,7 @@ Player = DynamicEntity:extend()
 
 function Player:new(image, x, y, width, height, name)
     Player.super.new(self, x, y, width, height, image, name)
-    self.speed = 10
+    self.speed = 5
     self.maxSpeed = 180
     self.gravity = 360
     self.weight = 50
@@ -36,9 +36,6 @@ end
 ------------------------------------------------------------------------------------------
 function Player:update(dt)
     self.stickDirection = joystick:getGamepadAxis("leftx")
-
-    self:checkState()
-
     -- super contains applyGravity
     Player.super.update(self, dt)
     self:movement(dt)
@@ -51,19 +48,20 @@ end
 
 -- 0 = Not touching a float block
 -- 1 = Touching a float block
-function Player:checkState()
-    if self.state == 0 then
+function Player:changeAttributes(state)
+    if state == 0 then
         self.gravity = 360
         self.weight = 50
         self.jumpVelocity = -175
-    elseif self.state == 1 then
-        self.onGround = false
+        self.yVelocity = 0
+        self.onGround = true
+    elseif state == 1 then
+        self.onGround = true
         self.gravity = 380
         self.weight = 30
+        self.yVelocity = 10
         self.jumpVelocity = -195
     end
-
-
 end
 
 function Player:movement(dt)
@@ -195,22 +193,17 @@ function Player:checkCollisions(dt)
         -- maybe do an if first saying if its slowblock whatever self.onGround = false
         -- then say elseif
         -- THIS IS WORKING
+        -- NOTE: Maybe ditch the states for now..?
         if otherCollisionName == "slowblock" then
             self.onGround = false
+        elseif otherCollisionName == "float" then
+            self:changeAttributes(1)
         elseif col.normal.y == -1 or col.normal.y == 1 then
-            self.yVelocity = 0
-            self.state = 0
-            self.onGround = true
+            self:changeAttributes(0)
+            --self.onGround = true
         end
-        -- elseif col.normal.y == -1 then
-        --     self.onGround = true
-        -- end
         -- NOTE: END COMMENT
         --------------------------------------------------
-        if otherCollisionName == "float" then
-            self.onGround = true
-            self.state = 1
-        end
         if otherCollisionName == "spike" then
             -- TODO: Add actual logic
             -- Dead restart game
