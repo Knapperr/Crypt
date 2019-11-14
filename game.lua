@@ -15,11 +15,11 @@ function Game:new()
 end
 
 function Game:load()
-    -- global entities
+    -- NOTE: global entities
     entities = {}
     powerups = {}
     images = {}
-
+    player = {}
     -- init bump
     world = bump.newWorld()
     self.map = sti("data/tileset/level1.lua", { "bump" })
@@ -38,7 +38,7 @@ function Game:load()
     -- WxH is not based off of image. The image is a sprite sheet
     local playerWidth = 15
     local playerHeight = 15
-    player = {}
+
     for k, object in pairs(self.map.objects) do
         if object.name == "Spike" then
 
@@ -49,13 +49,14 @@ function Game:load()
             table.insert(entities, SlowBlock(slowblockImage, object.x, object.y, 32, 32, "slowblock"))
         elseif object.name == "Player" then
             player = Player(playerImage, object.x, object.y, playerWidth, playerHeight, "player")
-            table.insert(entities, player)
         elseif object.name == "SpeedPowerup" then
             table.insert(powerups, Powerup(speedPowerupImage, object.x, object.y, 16, 16, "powerup"))
         elseif object.name == "GravityPowerup" then
             table.insert(powerups, Powerup(gravityPowerupImage, object.x, object.y, 16, 16, "powerup"))
         end
     end
+    -- NOTE: Insert the player to the end of the table
+    table.insert(entities, player)
 end
 
 -- Update the game
