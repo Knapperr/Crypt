@@ -4,6 +4,7 @@ Game = Object:extend()
 -- NOTE: Camera system
 cameraX = 0
 cameraY = 0
+showDebug = false
 
 function Game:new()
     -- How many collisions are happening
@@ -11,7 +12,6 @@ function Game:new()
     self.cols_len = 0
     self.screenHeight = 0
     self.screenWidth = 0
-    self.showDebug = true
 end
 
 function Game:load()
@@ -88,9 +88,9 @@ function Game:update(dt)
 
     -- Debug controls
     if love.keyboard.isDown("1") then
-        self.showDebug = false
+        showDebug = false
     elseif love.keyboard.isDown("2") then
-        self.showDebug = true
+        showDebug = true
     end
 
     -- Restart game
@@ -141,12 +141,12 @@ function Game:draw()
     love.graphics.pop()
 
     -- DEBUG PLAYER
-    if self.showDebug == true then
+    if showDebug == true then
         love.graphics.print("Gravity: " .. player.gravity, 32, 32)
         love.graphics.print("yVelocity: " .. player.yVelocity, 32, 64)
         love.graphics.print("xVelocity: " .. player.xVelocity, 32, 96)
         love.graphics.print("onGround: " .. tostring(player.onGround), 32, 128)
-        love.graphics.print("player state: " ..player.state, 32, 160)
+        love.graphics.print("player state: " ..tostring(player.state), 32, 160)
         love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 32, 190)
         love.graphics.print("x: " .. tostring(player.x), 32, 220)
         love.graphics.print("y: " .. tostring(player.y), 32, 240)

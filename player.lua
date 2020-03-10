@@ -5,9 +5,9 @@ function Player:new(image, x, y, width, height, name)
     Player.super.new(self, x, y, width, height, image, name)
     self.speed = 5
     self.maxSpeed = 180
-    self.gravity = 360
-    self.weight = 50
-    self.jumpVelocity = -175
+    self.gravity = 365
+    self.weight = 55
+    self.jumpVelocity = -165
     self.timeToThrow = 0
     self.dead = false
 
@@ -50,17 +50,19 @@ end
 -- 1 = Touching a float block
 function Player:changeAttributes(state)
     if state == 0 then
-        self.gravity = 360
-        self.weight = 50
-        self.jumpVelocity = -175
+        self.state = 0 -- TODO: REMOVE THIS
+        self.gravity = 365
+        self.weight = 55
+        self.jumpVelocity = -165
         self.yVelocity = 0
         self.onGround = true
     elseif state == 1 then
+        self.state = 1 -- TODO: REMOVE THIS
         self.onGround = true
-        self.gravity = 380
-        self.weight = 30
-        self.yVelocity = 10
-        self.jumpVelocity = -195
+        self.gravity = 375
+        self.weight = 40
+        self.yVelocity = 9
+        self.jumpVelocity = -175
     end
 end
 
@@ -153,11 +155,14 @@ end
 ------------------------------------------------------------------------------------------
 function Player:draw()
     if self.image ~= nil then
-        love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
         if self.direction == self.right then
             self.animation:draw(self.image, math.floor(self.x), math.floor(self.y), 0, 1, 1, self.ox, self.oy)
         elseif self.direction == self.left then
             self.animationFlipped:draw(self.image, math.floor(self.x), math.floor(self.y), 0, 1, 1, self.ox, self.oy)
+        end
+
+        if showDebug == true then
+            love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
         end
     end
 end

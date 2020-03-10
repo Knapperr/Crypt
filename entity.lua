@@ -21,7 +21,9 @@ function Entity:draw()
     if self.image ~= nil then
         love.graphics.draw(self.image, self.x, self.y)
 
-        love.graphics.setPointSize(5)
-        love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
+        if showDebug == true then
+            love.graphics.setPointSize(5)
+            love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
+        end
     end
 end
